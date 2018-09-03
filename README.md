@@ -37,9 +37,19 @@ Die Stromversorgung erfolgt indealerweise aus einem 5V-Steckernetzteil und wird 
    - Board: `Arduino Pro or Pro Mini`
    - Prozessor: `ATmega328P (3.3V, 8 MHz)`
    - Port: `COM-Port` des FTDI Adapters <br>
- - Sketch öffnen. Die 3 Dateien
-   - [HB-UNI-Sen-DUMMY-BEACON.ino](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB-UNI-Sen-DUMMY-BEACON.ino)
-   - [HB_Device.h](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB_Device.h)
-   - [HB_MultiChannelDevice.h](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB_MultiChannelDevice.h)
-   
-   müssen sich in einem gemeinsamen Verzeichnis befinden.
+ - Sketch öffnen. (Die 3 Dateien [HB-UNI-Sen-DUMMY-BEACON.ino](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB-UNI-Sen-DUMMY-BEACON.ino), [HB_Device.h](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB_Device.h) und [HB_MultiChannelDevice.h](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB_MultiChannelDevice.h) müssen sich in einem gemeinsamen Verzeichnis befinden.)
+            
+- Sketch hochladen:
+  - Sketch
+    - Hochladen
+
+## HomeMatic
+### Addon installieren
+Damit das Gerät von der CCU erkannt und unterstützt wird, ist es erforderlich, das [JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon) zu installieren.<br/>Es wird **mindestens Version 1.18** benötigt.
+
+### Anlernen an HomeMatic
+Das Anlernen erfolgt nach Installation des Addons wie man es von anderen HomeMatic-Geräten gewohnt ist:
+- Geräte anlernen -> HM-Gerät anlernen klicken
+- **Config-Taster** am Arduino Pro Mini **kurz** drücken
+- das neue Gerät erscheint anschließend im Posteingang
+
