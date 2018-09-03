@@ -1,12 +1,16 @@
 # HB-UNI-Sen-DUMMY-BEACON
-**Dummy-Device zum Vermeiden von "Kommunikation gestört"-Servicemeldungen deaktivierter HomeMatic-Geräte (nur HM-RF, kein HmIP / Wired).**<br/>
+**Dummy-Device zum Vermeiden von "Kommunikation gestört"-Servicemeldungen bis zu 8 deaktivierter HomeMatic-Geräte (nur HM-RF, kein HmIP / Wired).**<br/>
 
 Die ist z.B. sehr nützlich bei saisonal verwendeten Geräten, die in Programmen verwendet werden, jedoch z.B. in Wintermonaten nicht genutzt werden.
 Denn ein Ablernen der Geräte während der Nutzungspausen würde bedeuten, dass Programme nach dem erneuten Anlernen wieder bearbeitet werden müssten.
 
 Es erfolgt:
  - eine automatische Aussendung zyklischer Telegramme an die CCU (bei Sensoren)
- - eine Quittung (Ack) von Steuerbefehlern von der CCU (bei Aktoren)
+ - eine Quittung (Ack) von Steuerbefehlen der CCU (bei Aktoren)
+ 
+_Wird ein Telegramm des "echten" Gerätes empfangen, so wird das Aussenden der Fake-Telegramme automatisch deaktiviert, um Kollisionen / Fehlverhalten zu vermeiden._
+ 
+ ![bedienung](Images/CCU_Bedienung.png)
 
 ## Hardware
 ### Bauteile
@@ -53,3 +57,38 @@ Das Anlernen erfolgt nach Installation des Addons wie man es von anderen HomeMat
 - **Config-Taster** am Arduino Pro Mini **kurz** drücken
 - das neue Gerät erscheint anschließend im Posteingang
 
+### Konfiguration
+Damit das Dummy-Device weiß, wessen Telegramme es nun ersetzen soll, müssen die **Adressen** _(Achtung: nicht die Seriennummern!)_ der Geräte im Dummy-Device hinterlegt werden.
+<br/>
+_Hintergrund:
+Die Adresse (RF_ADDRESS) eines HomeMatic-Geräts ist leider nicht ohne Umwege in der WebUI ersichtlich.
+Sie lässt sich beispielsweise als hexadezimalwert dem Device-File im Dateisystem `/etc/config/rfd/<SERIAL.dev>` entnehmen:<br/>
+<img src="Images/dev-file.png" width=350 />
+<br/>_
+
+Um das Hinterlegen der gewünschten Adressen weitestgehend zu automatisieren ist wie folgt vorzugehen:<br/><br/>
+**1.** In den Geräteeinstellungen des Dummy-Device ist ein Kanal umzubenennen.<br/>
+Der Kanalname muss beginnen mit **X** gefolgt von der Seriennummer, des HomeMatic Geräts, das abgebildet werden soll.<br/>
+Beispiel:<br/>
+ - das HomeMatic-Gerät hat die Seriennummer: **NEQ0386972**
+ - der Kanalname des Dummy-Device muss lauten: **XNEQ0386972**
+
+![gerate](Images/CCU_Geraete.png)
+ <br/>
+ 
+ **2.** Ausführen des [Parametrierungsskripts](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/additional/ccu_script.txt) auf der CCU.<br/>
+(Sollte die Seriennummer des Dummy-Device *nicht* **JPBEACON01** lauten, so ist diese im Skript entpsrechend zu ändern (`string FAKEDEV = "JPBEACON01";`).)
+<br/>
+Durch Ausführen des Skripts werden nun die Adressen der Geräte ausgelesen und zum Dummy-Device übertragen.
+
+**3.** Einstellungen<br/>
+![einstellungen](Images/CCU_Einstellungen.png)
+<br/>
+In den Einstellungen können Parameter
+ - für das Gerät
+   - Max. Sendeversuche: Anzahl der Sendeversuche bei bidirektionalen Nachrichten
+ - je Kanal (also je emuliertem Gerät)
+   - Geräte-ID: RF-Adresse; hier dezimal! (wird vom Skript gesetzt)
+   - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (bei Sensoren)
+   - Telegrammübertragung aktiviert: Dummy-Nachrichten werden für dieses Gerät generiert
+ festgelegt werden.
