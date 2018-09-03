@@ -89,7 +89,7 @@ In den Einstellungen können Parameter
    - Max. Sendeversuche: Anzahl der Sendeversuche bei bidirektionalen Nachrichten
  - je Kanal (also je emuliertem Gerät)
    - Geräte-ID: RF-Adresse; hier dezimal! (wird vom Skript gesetzt)
-   - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (bei Sensoren)
+   - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (nur bei Sensoren, bei Aktoren auf 0 lassen!)
    - Telegrammübertragung aktiviert: Dummy-Nachrichten werden für dieses Gerät generiert
  
  festgelegt werden.
@@ -100,3 +100,5 @@ Unter "Status und Bedienung"->"Geräte" ist eine Übersicht der aktivierten Kan�
 <br/><br/>
 **Achtung:** Der Status der Telegrammübertragung (aktiviert / deaktiviert) muss nicht zwingend der Einstellung wie unter **3.** festgelegt entsprechen!<br/>
 Es wird der tatsächliche Status wiedergegeben. Ist z.B. ein Kanal in **3.** aktiviert und es wird jedoch ein Funktelegramm vom "echten" HomeMatic-Gerät empfangen, wird der Kanal in der Übersicht deaktiviert!
+
+**Diese README ist garantiert nicht vollständig! Bei Unklarheiten bitte ein Issue erstellen.**
