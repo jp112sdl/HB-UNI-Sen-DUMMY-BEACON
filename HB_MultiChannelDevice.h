@@ -447,16 +447,16 @@ class ChannelDevice : public Device<HalType, List0Type> {
           HMID fakeDevId = fakeDevice[devIdx].FakeDeviceID;
 
           if (fakeDevId.valid()) {
-            if (fakeDevId == msg.from()) {
-              fakeDevice[devIdx].Enabled = false;
-              DPRINT(F("DISABLED DEVICE "));fakeDevId.dump();DPRINT(F(" - seems to be alive!"));
-            }
-
             if (fakeDevice[devIdx].Enabled == true) {
-              if (msg.to() == fakeDevId ) {
-                //this->sendFake(msg,  msg.from());
-                DPRINT(F("SEND ACK FOR DEV ")); fakeDevId.dump(); DPRINTLN("");
-                this->sendAck(msg, *ch, fakeDevId);
+              if (fakeDevId == msg.from()) {
+                fakeDevice[devIdx].Enabled = false;
+                DPRINT(F("DISABLED DEVICE ")); fakeDevId.dump(); DPRINTLN(F(" - seems to be alive!"));
+              } else {
+                if (msg.to() == fakeDevId ) {
+                  //this->sendFake(msg,  msg.from());
+                  DPRINT(F("SEND ACK FOR DEV ")); fakeDevId.dump(); DPRINTLN("");
+                  this->sendAck(msg, *ch, fakeDevId);
+                }
               }
             }
           }
