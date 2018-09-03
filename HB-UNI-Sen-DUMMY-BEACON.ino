@@ -129,7 +129,7 @@ class FakeChannel : public Channel<Hal, UList1, EmptyList, List4, PEERS_PER_CHAN
       }
 
       if (_current_tick >= CYCLIC_MSG_TIMEOUT || _current_tick == 0 || _last_enabled != fakeDevice[devIdx].Enabled) {
-        DPRINT(F("BROADCASTING OWN CYCLIC MESSAGE"));
+        DPRINTLN(F("BROADCASTING OWN CYCLIC MESSAGE"));
         dmsg.init(device().nextcount(), number(), fakeDevice[devIdx].Enabled);
         device().broadcastPeerEvent(dmsg, *this);
         _delay_ms(200);
