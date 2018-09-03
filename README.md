@@ -91,4 +91,5 @@ In den Einstellungen können Parameter
    - Geräte-ID: RF-Adresse; hier dezimal! (wird vom Skript gesetzt)
    - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (bei Sensoren)
    - Telegrammübertragung aktiviert: Dummy-Nachrichten werden für dieses Gerät generiert
+ 
  festgelegt werden.
