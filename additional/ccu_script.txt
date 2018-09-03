@@ -1,0 +1,57 @@
+! HOMEMATIC Skript zum Ermitteln und Setzen der zu emulierenden Geräte
+! Die einzelnen Kanalnamen des Dummy Beacon Device müssen mit X beginnen, folgend der Seriennummer des zu emulierenden Geräts
+! Beispiel: Fensterkontakt mit der Seriennummer NEQ1234567
+! Kanalname: XNEQ1234567
+
+string FAKEDEV = "JPBEACON01";  ! Seriennummer des Dummy Beacon Device
+
+var dev = xmlrpc.GetObjectByHSSAddress(interfaces.Get("BidCos-RF"),FAKEDEV);
+
+if (dev) {
+  var chns = dev.Channels().EnumUsedNames();
+  string ch;
+  foreach (ch, chns) {
+   string chName = dom.GetObject(ID_CHANNELS).Get(ch).Name();
+   string addr =   dom.GetObject(ID_CHANNELS).Get(ch).Address();
+   
+   integer rf = 0;
+   integer to = 0;
+   boolean en = false;
+   
+   !RF_ADDRESS des zu emulierenden Geräts ermitteln
+   if ( (chName.StartsWith("X")) && (chName.Length() == 11) ) {
+    string toFakeSerial = chName.Substr(1, 10);
+    Write(toFakeSerial);
+    string stdOut;string stdErr = "kein";boolean retVal;
+    string cmd = "echo 'load tclrpc.so; puts [xmlrpc http://127.0.0.1:2001/ getDeviceDescription [list string "#toFakeSerial#"]]'|tclsh|grep -o 'RF_ADDRESS.[0-9]*.'|grep -o '[0-9]*'";
+    retVal = system.Exec(cmd,&stdOut,&stdErr);
+    Write(" : retVal: " # retVal);
+    Write(", Fehler: "#stdErr);
+    WriteLine(", RF_ADDRESS: "#stdOut);
+    if (stdOut) {
+     rf = stdOut.ToInteger();
+     en = true;
+    } else {
+      WriteLine("Fehler beim Ermitteln der RF_ADDRESS zu "#toFakeSerial);
+    }
+   }
+   
+   !Den Kanälen des DummyDevices die Parameter-Werte setzen
+   string pp;
+   string param;
+   
+   param = "FD_DEVICE_ID";
+   pp = xmlrpc.PutParamset(dev.Interface(),addr,"MASTER",param, rf); 
+   !WriteLine("PutParamset "#param#" : "#pp);
+
+   param = "FD_ENABLED";
+   pp = xmlrpc.PutParamset(dev.Interface(),addr,"MASTER",param, en); 
+   !WriteLine("PutParamset "#param#" : "#pp);
+
+   param = "FD_CYCLIC_TIMEOUT";
+   pp = xmlrpc.PutParamset(dev.Interface(),addr,"MASTER",param, to);
+   !WriteLine("PutParamset "#param#" : "#pp);
+  }
+} else {
+  WriteLine("Device not found");
+}
