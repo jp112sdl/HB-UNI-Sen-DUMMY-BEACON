@@ -16,3 +16,30 @@ Es erfolgt:
  - 1x Taster (beliebig, z.B. Kurzhubtaster)
  - 1x Widerstand 330Ohm
  - 1x LED
+ 
+### Verdrahtung
+![wiring](Images/wiring.png)
+
+Die Stromversorgung erfolgt indealerweise aus einem 5V-Steckernetzteil und wird an **RAW** (+) sowie **GND** (-) des Pro Mini angeschlossen.
+
+## Software
+### Arduino IDE
+- Arduino IDE [herunterladen](https://www.arduino.cc/en/Main/Software) und installieren
+- AskSinPP Bibliothek als [ZIP herunterladen](https://github.com/pa-pa/AskSinPP/archive/master.zip) 
+- notwendige Bibliotheken in der Arduino IDE hinzufügen:
+  - Sketch -> Bibliothek einbinden -> .ZIP-Bibliothek hinzufügen
+    - heruntergeladene AskSinPP Bibliothek ZIP-Datei auswählen
+  - Sketch -> Bibliothek einbinden -> Bibliotheken verwalten
+    - im Suchfeld folgende Bibliotheken suchen und installieren:
+      - EnableInterrupt
+      - Low-Power
+ - Board einstellen:
+   - Board: `Arduino Pro or Pro Mini`
+   - Prozessor: `ATmega328P (3.3V, 8 MHz)`
+   - Port: `COM-Port` des FTDI Adapters <br>
+ - Sketch öffnen. Die 3 Dateien
+   - [HB-UNI-Sen-DUMMY-BEACON.ino](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB-UNI-Sen-DUMMY-BEACON.ino)
+   - [HB_Device.h](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB_Device.h)
+   - [HB_MultiChannelDevice.h](https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-DUMMY-BEACON/master/HB_MultiChannelDevice.h)
+   
+   müssen sich in einem gemeinsamen Verzeichnis befinden.
