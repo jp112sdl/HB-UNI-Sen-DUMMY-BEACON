@@ -93,3 +93,10 @@ In den Einstellungen können Parameter
    - Telegrammübertragung aktiviert: Dummy-Nachrichten werden für dieses Gerät generiert
  
  festgelegt werden.
+
+**4.** Betrieb<br/>
+Unter "Status und Bedienung"->"Geräte" ist eine Übersicht der aktivierten Kanäle zu sehen.<br/>
+![bedienung](Images/CCU_Bedienung.png)
+<br/><br/>
+**Achtung:** Der Status der Telegrammübertragung (aktiviert / deaktiviert) muss nicht zwingend der Einstellung wie unter **3.** festgelegt entsprechen!<br/>
+Es wird der tatsächliche Status wiedergegeben. Ist z.B. ein Kanal in **3.** aktiviert und es wird jedoch ein Funktelegramm vom "echten" HomeMatic-Gerät empfangen, wird der Kanal in der Übersicht deaktiviert!
