@@ -14,10 +14,10 @@ _Wird ein Telegramm des "echten" Gerätes empfangen, so wird das Aussenden der F
 
 ## Hardware
 ### Bauteile
- - 1x Arduino Pro Mini (3.3V 8MHz) (ca. 2,20 EUR bei eBay)
- - 1x CC1101 Funkmodul 868MHz (ca. 2,60 EUR bei eBay)
- - 1x FTDI Adapter (falls nicht schon vorhanden, gibts bei Amazon)
- - 1x Taster (beliebig, z.B. Kurzhubtaster)
+ - 1x Arduino Pro Mini (3.3V 8MHz)
+ - 1x CC1101 Funkmodul 868MHz
+ - 1x FTDI Adapter
+ - 1x Taster
  - 1x Widerstand 330Ohm
  - 1x LED
  
