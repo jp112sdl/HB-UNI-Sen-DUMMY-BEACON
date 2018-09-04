@@ -60,8 +60,8 @@ Das Anlernen erfolgt nach Installation des Addons wie man es von anderen HomeMat
 ### Konfiguration
 Damit das Dummy-Device weiß, wessen Telegramme es nun ersetzen soll, müssen die **Adressen** _(Achtung: nicht die Seriennummern!)_ der Geräte im Dummy-Device hinterlegt werden.
 <br/>
-_Hintergrund:
-Die Adresse (RF_ADDRESS) eines HomeMatic-Geräts ist leider nicht ohne Umwege in der WebUI ersichtlich.
+_Hintergrund-Info: 
+Anhand der Seriennummer wird ein HomeMatic Gerät nicht im Funkprotokoll identifiziert. Dies geschieht ausschließlich über die Geräteadresse. Die Adresse (RF_ADDRESS) eines HomeMatic-Geräts ist leider nicht ohne Umwege in der WebUI ersichtlich.
 Sie lässt sich beispielsweise als hexadezimalwert dem Device-File im Dateisystem `/etc/config/rfd/<SERIAL.dev>` entnehmen:<br/>
 <img src="Images/dev-file.png" width=350 />
 <br/>_
