@@ -61,8 +61,8 @@ class UList1 : public RegList1<UReg1> {
 
     bool FakeDeviceID (HMID value) const {
       uint8_t v[3];
-      memcpy(v, value, 3);
-      return this->writeRegister(0x01, v[0] & 0xff) && this->writeRegister(0x02, v[1] & 0xff) && this->writeRegister(0x03, v[3] & 0xff);
+      memcpy(v, &value, 3);
+      return this->writeRegister(0x01, v[0] & 0xff) && this->writeRegister(0x02, v[1] & 0xff) && this->writeRegister(0x03, v[2] & 0xff);
     }
 
     HMID FakeDeviceID () const {
