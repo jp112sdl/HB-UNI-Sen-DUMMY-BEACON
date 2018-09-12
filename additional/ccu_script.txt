@@ -17,12 +17,12 @@ if (dev) {
    integer rf = 0;
    integer to = 0;
    boolean en = false;
+   boolean retVal;string stdOut;string stdErr = "kein";
    
    !RF_ADDRESS des zu emulierenden Geräts ermitteln
    if ( (chName.StartsWith("X")) && (chName.Length() == 11) ) {
     string toFakeSerial = chName.Substr(1, 10);
     Write(toFakeSerial);
-    string stdOut;string stdErr = "kein";boolean retVal;
     string cmd = "echo 'load tclrpc.so; puts [xmlrpc http://127.0.0.1:2001/ getDeviceDescription [list string "#toFakeSerial#"]]'|tclsh|grep -o 'RF_ADDRESS.[0-9]*.'|grep -o '[0-9]*'";
     retVal = system.Exec(cmd,&stdOut,&stdErr);
     Write(" : retVal: " # retVal);
@@ -35,22 +35,16 @@ if (dev) {
       WriteLine("Fehler beim Ermitteln der RF_ADDRESS zu "#toFakeSerial);
     }
    }
+
    
    !Den Kanälen des DummyDevices die Parameter-Werte setzen
-   string pp;
-   string param;
-   
-   param = "FD_DEVICE_ID";
-   pp = xmlrpc.PutParamset(dev.Interface(),addr,"MASTER",param, rf); 
-   !WriteLine("PutParamset "#param#" : "#pp);
-
-   param = "FD_ENABLED";
-   pp = xmlrpc.PutParamset(dev.Interface(),addr,"MASTER",param, en); 
-   !WriteLine("PutParamset "#param#" : "#pp);
-
-   param = "FD_CYCLIC_TIMEOUT";
-   pp = xmlrpc.PutParamset(dev.Interface(),addr,"MASTER",param, to);
-   !WriteLine("PutParamset "#param#" : "#pp);
+   string putcmd = "echo 'load tclrpc.so; lappend paramset [list FD_DEVICE_ID [list int "#rf#"]]; lappend paramset [list FD_ENABLED [list bool "#en#"]]; lappend paramset [list FD_CYCLIC_TIMEOUT [list int "#to#"]]; puts [xmlrpc http://127.0.0.1:2001/ putParamset [list string "#addr#"] [list string MASTER] [list struct $paramset] ]'|tclsh";
+   retVal = system.Exec(putcmd,&stdOut,&stdErr);
+   if (retVal > 0) {
+     Write(" : retVal: " # retVal);
+     Write(", Fehler: "#stdErr);
+     WriteLine(", stdOut: "#stdOut);  
+   }
   }
 } else {
   WriteLine("Device not found");
