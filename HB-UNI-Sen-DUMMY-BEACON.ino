@@ -26,7 +26,9 @@ FakeDeviceInfo fakeDevice[MAX_FAKEDEVICE_COUNT];
 
 #include "HB_MultiChannelDevice.h"
 #define CONFIG_BUTTON_PIN  8
-#define LED_PIN            4
+#define SYS_LED_PIN        4
+#define OK_LED_PIN         5
+#define ERROR_LED_PIN      6
 #define PEERS_PER_CHANNEL  1
 #define CYCLIC_MSG_TIMEOUT 3600  // seconds between sending information about en-/disabled fake devices to ccu
 using namespace as;
@@ -41,8 +43,10 @@ const struct DeviceInfo PROGMEM devinfo = {
   {0x01, 0x01}                 // Info Bytes
 };
 
-typedef AskSin<StatusLed<LED_PIN>, NoBattery, Radio<AvrSPI<10, 11, 12, 13>, 2> > Hal;
+typedef AskSin<StatusLed<SYS_LED_PIN>, NoBattery, Radio<AvrSPI<10, 11, 12, 13>, 2> > Hal;
 Hal hal;
+StatusLed<OK_LED_PIN> okLed;
+StatusLed<ERROR_LED_PIN>  errorLed;
 
 DEFREGISTER(UReg0, MASTERID_REGS, DREG_TRANSMITTRYMAX)
 class UList0 : public RegList0<UReg0> {
@@ -106,11 +110,13 @@ class FakeChannel : public Channel<Hal, UList1, EmptyList, List4, PEERS_PER_CHAN
     bool      _last_enabled;
 
   public:
+
     FakeChannel () : Channel(), Alarm(0), _current_tick(0), _last_enabled(false) {}
     virtual ~FakeChannel () {}
 
     virtual void trigger (__attribute__ ((unused)) AlarmClock& clock) {
       set(seconds2ticks(1));
+
 
       uint8_t devIdx = number() - 1;
 
@@ -120,6 +126,7 @@ class FakeChannel : public Channel<Hal, UList1, EmptyList, List4, PEERS_PER_CHAN
         if (fakeDevice[devIdx].CyclicTimeout > 0) {
           fakeDevice[devIdx].CurrentTick++;
           if (fakeDevice[devIdx].CurrentTick >= fakeDevice[devIdx].CyclicTimeout) {
+            okLed.ledOn(millis2ticks(200));
             DPRINT(F("SEND MSG FOR DEV ")); fakeDevId.dump(); DPRINTLN("");
             device().sendFakeInfoActuatorStatus(fakeDevId, device().nextcount(), *this);
             fakeDevice[devIdx].CurrentTick = 0;
@@ -129,7 +136,7 @@ class FakeChannel : public Channel<Hal, UList1, EmptyList, List4, PEERS_PER_CHAN
       }
 
       if (_current_tick >= CYCLIC_MSG_TIMEOUT || _current_tick == 0 || _last_enabled != fakeDevice[devIdx].Enabled) {
-        DPRINT(F("ch "));DDEC(number());DPRINTLN(F(", BROADCASTING OWN MSG"));
+        DPRINT(F("ch ")); DDEC(number()); DPRINTLN(F(", BROADCASTING OWN MSG"));
         dmsg.init(device().nextcount(), number(), fakeDevice[devIdx].Enabled);
         device().broadcastPeerEvent(dmsg, *this);
         _delay_ms(200);
@@ -150,6 +157,7 @@ class FakeChannel : public Channel<Hal, UList1, EmptyList, List4, PEERS_PER_CHAN
 
     void setup(Device<Hal, UList0>* dev, uint8_t number, uint16_t addr) {
       Channel::setup(dev, number, addr);
+
       sysclock.add(*this);
     }
 
@@ -171,6 +179,8 @@ void setup () {
   DINIT(57600, ASKSIN_PLUS_PLUS_IDENTIFIER);
   sdev.init(hal);
   buttonISR(cfgBtn, CONFIG_BUTTON_PIN);
+  okLed.init();
+  errorLed.init();
   sdev.initDone();
 }
 
