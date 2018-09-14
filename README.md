@@ -89,7 +89,7 @@ In den Einstellungen können Parameter
    - Max. Sendeversuche: Anzahl der Sendeversuche bei bidirektionalen Nachrichten
  - je Kanal (also je emuliertem Gerät)
    - Geräte-ID: RF-Adresse; hier dezimal! (wird vom Skript gesetzt)
-   - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (nur bei Sensoren, bei Aktoren auf 0 lassen!)
+   - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (nur bei Sensoren, bei Aktoren (außer HM-ES-PMSw1-xxx) auf 0 lassen!); die eingegebene Zeit muss kleiner sein als der von HomeMatic erwartete Wert (siehe unten stehende Tabelle)
    - Telegrammübertragung aktiviert: Dummy-Nachrichten werden für dieses Gerät generiert
  
  festgelegt werden.
@@ -102,3 +102,49 @@ Unter "Status und Bedienung"->"Geräte" ist eine Übersicht der aktivierten Kan�
 Es wird der tatsächliche Status wiedergegeben. Ist z.B. ein Kanal in **3.** aktiviert und es wird jedoch ein Funktelegramm vom "echten" HomeMatic-Gerät empfangen, wird der Kanal in der Übersicht deaktiviert!
 
 **Diese README ist garantiert nicht vollständig! Bei Unklarheiten bitte ein Issue erstellen.**
+
+CYCLIC_TIMEOUT Werte der HomeMatic-Geräte:
+
+| Device Type | Timeout | Device ID |
+|--------|--------|--------|
+| HM-CC-RT-DN | 600 | 0x0095 | 
+| HM-CC-RT-DN-BoM | 552 | 0x00bd | 
+| HM-CC-SCD | 88200 | 0x0056 | 
+| HM-CC-TC | 600 | 0x0039 | 
+| HM-CC-VD | 3600 | 0x003a | 
+| HM-ES-PMSw1-DR | 600 | 0x00ea | 
+| HM-ES-PMSw1-Pl | 600 | 0x00ac | 
+| HM-ES-PMSw1-Pl-DN-R1 | 600 | 0x00d7 | 
+| HM-ES-PMSw1-Pl-DN-R2 | 600 | 0x00e2 | 
+| HM-ES-PMSw1-Pl-DN-R3 | 600 | 0x00e3 | 
+| HM-ES-PMSw1-Pl-DN-R4 | 600 | 0x00e4 | 
+| HM-ES-PMSw1-Pl-DN-R5 | 600 | 0x00e5 | 
+| HM-ES-PMSw1-S | 600 | 0x00f6 | 
+| HM-ES-TX-WM | 600 | 0x00de | 
+| HM-SCI-3-FM | 88200 | 0x005f | 
+| HM-Sec-MDIR | 1200 | 0x004a | 
+| HM-Sec-MDIR-2 | 1200 | 0x00c0 | 
+| HM-Sec-MDIR-3 | 1200 | 0x00f7 | 
+| HM-Sec-RHS | 88200 | 0x0030 | 
+| HM-Sec-SC | 88200 | 0x002f | 
+| HM-Sec-SC-2 | 88200 | 0x00b1 | 
+| HM-Sec-SCo | 10000 | 0x00c7 | 
+| HM-Sec-SD | 1209600 | 0x0042 | 
+| HM-Sec-SD-2 | 259200 | 0x00aa | 
+| HM-Sec-TiS | 88200 | 0x0043 | 
+| HM-Sec-WDS | 88200 | 0x0045 | 
+| HM-Sec-WDS-2 | 88200 | 0x00b2 | 
+| HM-Sen-LI-O | 88200 | 0x00fd | 
+| HM-Sen-RD-O | 88200 | 0x00a7 | 
+| HM-Sen-Wa-Od | 88200 | 0x009f | 
+| HM-TC-IT-WM-W-EU | 600 | 0x00ad | 
+| HM-WDS10-TH-O | 600 | 0x003d | 
+| HM-WDS100-C6-O | 600 | 0x0040 | 
+| HM-WDS100-C6-O-2 | 600 | 0x00ae | 
+| HM-WDS20-TH-O | 600 | 0x003c | 
+| HM-WDS30-OT2-SM | 40000 | 0x00a8 | 
+| HM-WDS30-OT2-SM-2 | 40000 | 0x0102 | 
+| HM-WDS30-T-O | 600 | 0x000f | 
+| HM-WDS40-TH-I | 600 | 0x003f | 
+| HM-WDS40-TH-I-2 | 600 | 0x00bc | 
+
