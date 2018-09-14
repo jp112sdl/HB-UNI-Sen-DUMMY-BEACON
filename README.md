@@ -103,7 +103,7 @@ Es wird der tatsächliche Status wiedergegeben. Ist z.B. ein Kanal in **3.** akt
 
 **Diese README ist garantiert nicht vollständig! Bei Unklarheiten bitte ein Issue erstellen.**
 
-CYCLIC_TIMEOUT Werte der HomeMatic-Geräte:
+#### CYCLIC_TIMEOUT Werte der HomeMatic-Geräte:
 
 | Device Type | Timeout | Device ID |
 |--------|--------|--------|
