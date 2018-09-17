@@ -451,6 +451,7 @@ class ChannelDevice : public Device<HalType, List0Type> {
               if (fakeDevId == msg.from()) {
                 fakeDevice[devIdx].Enabled = false;
                 DPRINT(F("DISABLED DEVICE ")); fakeDevId.dump(); DPRINTLN(F(" - seems to be alive!"));
+                errorLed.ledOn();
               } else {
                 if (msg.to() == fakeDevId ) {
                   //this->sendFake(msg,  msg.from());

@@ -12,8 +12,14 @@
 #include <LowPower.h>
 #include <Register.h>
 
+#define SYS_LED_PIN        4
+#define OK_LED_PIN         5
+#define ERROR_LED_PIN      6
+
+using namespace as;
+
 struct FakeDeviceInfo {
-  as::HMID FakeDeviceID;
+  HMID FakeDeviceID;
 
   // known timeouts
   // 552, 600, 1200, 3600, 10000, 259200, 40000, 88200, 259200, 1209600
@@ -22,20 +28,17 @@ struct FakeDeviceInfo {
   bool     Enabled;
   uint32_t CurrentTick;
 };
-FakeDeviceInfo fakeDevice[MAX_FAKEDEVICE_COUNT];
 
+FakeDeviceInfo fakeDevice[MAX_FAKEDEVICE_COUNT];
+StatusLed<ERROR_LED_PIN>  errorLed;
 #include "HB_MultiChannelDevice.h"
 #define CONFIG_BUTTON_PIN  8
-#define SYS_LED_PIN        4
-#define OK_LED_PIN         5
-#define ERROR_LED_PIN      6
 #define PEERS_PER_CHANNEL  1
 #define CYCLIC_MSG_TIMEOUT 3600  // seconds between sending information about en-/disabled fake devices to ccu
-using namespace as;
 
 // define all device properties
 const struct DeviceInfo PROGMEM devinfo = {
-  {0xF3, 0xFF, 0xFF},          // Device ID
+  {0xF3, 0xFF, 0x01},          // Device ID
   "JPBEACON01",                // Device Serial
   {0xF3, 0xFF},                // Device Model
   0x10,                        // Firmware Version
@@ -46,7 +49,6 @@ const struct DeviceInfo PROGMEM devinfo = {
 typedef AskSin<StatusLed<SYS_LED_PIN>, NoBattery, Radio<AvrSPI<10, 11, 12, 13>, 2> > Hal;
 Hal hal;
 StatusLed<OK_LED_PIN> okLed;
-StatusLed<ERROR_LED_PIN>  errorLed;
 
 DEFREGISTER(UReg0, MASTERID_REGS, DREG_TRANSMITTRYMAX)
 class UList0 : public RegList0<UReg0> {
