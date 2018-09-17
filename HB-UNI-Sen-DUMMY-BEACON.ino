@@ -60,7 +60,7 @@ class UList0 : public RegList0<UReg0> {
     }
 };
 
-DEFREGISTER(UReg1, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07)
+DEFREGISTER(UReg1, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08)
 class UList1 : public RegList1<UReg1> {
   public:
     UList1 (uint32_t addr) : RegList1<UReg1>(addr) {}
@@ -89,11 +89,19 @@ class UList1 : public RegList1<UReg1> {
       return this->writeBit(0x07, 0, v);
     }
 
+    bool StatusValue (uint8_t value) const {
+      return this->writeRegister(0x08, value & 0xff);
+    }
+    uint8_t StatusValue () const {
+      return this->readRegister(0x08, 0);
+    }
+
     void defaults () {
       clear();
       FakeDeviceID({0x00, 0x00, 0x00});
       CyclicTimeout(0);
       FakeDeviceEnabled(false);
+      StatusValue(0);
     }
 };
 
@@ -164,7 +172,7 @@ class FakeChannel : public Channel<Hal, UList1, EmptyList, List4, PEERS_PER_CHAN
     }
 
     uint8_t status () const {
-      return 0;
+      return this->getList1().StatusValue();
     }
 
     uint8_t flags () const {
