@@ -91,6 +91,7 @@ In den Einstellungen können Parameter
    - Geräte-ID: RF-Adresse; hier dezimal! (wird vom Skript gesetzt)
    - Übertragungsintervall: alle x Sekunden wird ein zyklisches Telegramm gesendet (nur bei Sensoren, bei Aktoren (außer HM-ES-PMSw1-xxx) auf 0 lassen!); die eingegebene Zeit muss kleiner sein als der von HomeMatic erwartete Wert (siehe unten stehende Tabelle)
    - Telegrammübertragung aktiviert: Dummy-Nachrichten werden für dieses Gerät generiert
+   - Status-Wert: z.B. bei Fensterkontakt "geschlossen" (0) oder "offen" (1) übertragen
  
  festgelegt werden.
 
