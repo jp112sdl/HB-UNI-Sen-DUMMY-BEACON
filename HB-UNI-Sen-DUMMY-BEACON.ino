@@ -38,8 +38,8 @@ StatusLed<ERROR_LED_PIN>  errorLed;
 
 // define all device properties
 const struct DeviceInfo PROGMEM devinfo = {
-  {0xF3, 0xFF, 0x01},          // Device ID
-  "JPBEACON01",                // Device Serial
+  {0xF3, 0xFF, 0x00},          // Device ID
+  "JPBEACON00",                // Device Serial
   {0xF3, 0xFF},                // Device Model
   0x10,                        // Firmware Version
   0x53,                        // Device Type
