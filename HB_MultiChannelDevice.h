@@ -466,7 +466,7 @@ class ChannelDevice : public Device<HalType, List0Type> {
       // send ack/nack
       if ( msg.ackRequired() == true && msg.to() == devid ) {
         if ( answer == REPLAY_ACK ) {
-          if ( ch != 0 ) this->sendAck(msg, *ch, msg.from());
+          if ( ch != 0 ) this->sendAck(msg, *ch, msg.to());
           else this->sendAck(msg);
         }
         else if ( answer == REPLAY_NACK ) {
