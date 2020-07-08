@@ -108,7 +108,7 @@ class UList1 : public RegList1<UReg1> {
 class DummyDeviceEventMsg : public Message {
   public:
     void init(uint8_t msgcnt, uint8_t channel, bool enabled) {
-      Message::init(0x0e, msgcnt, 0x53, BCAST , channel, enabled);
+      Message::init(0x0b, msgcnt, 0x53, BCAST , channel, enabled);
     }
 };
 
