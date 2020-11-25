@@ -76,7 +76,7 @@ class UList1 : public RegList1<UReg1> {
     }
 
     bool CyclicTimeout (uint32_t value) const {
-      return this->writeRegister(0x04, (value >> 16) & 0xff) && (0x05, (value >> 8) & 0xff) && this->writeRegister(0x06, value & 0xff);
+      return this->writeRegister(0x04, (value >> 16) & 0xff) && this->writeRegister(0x05, (value >> 8) & 0xff) && this->writeRegister(0x06, value & 0xff);
     }
     uint32_t CyclicTimeout () const {
       return ((uint32_t)this->readRegister(0x04, 0) << 16) | ((uint32_t)this->readRegister(0x05, 0) << 8) | (uint32_t)this->readRegister(0x06, 0);
