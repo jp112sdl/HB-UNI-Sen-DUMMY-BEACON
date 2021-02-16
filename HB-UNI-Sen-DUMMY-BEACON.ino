@@ -4,6 +4,8 @@
 // 2018-08-30 jp112sdl Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
 //- -----------------------------------------------------------------------------------------------------------------------
 // compatible to AskSinPP commit b4f6000
+// ci-test=yes board=328p aes=no
+
 #define MAX_FAKEDEVICE_COUNT  8
 
 #define EI_NOTEXTERNAL
